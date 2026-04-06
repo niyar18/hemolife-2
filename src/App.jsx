@@ -11,6 +11,7 @@ import Donors    from "./pages/Donors";
 import AddDonor  from "./pages/AddDonor";
 import Profile   from "./pages/Profile";
 import WhyDonate from "./pages/WhyDonate";
+import BadgesPage from "./pages/BadgesPage";
 
 import "./styles/global.css";
 
@@ -34,6 +35,7 @@ function AppRoutes() {
         {/* ════ PROTECTED — must be logged in ════ */}
         <Route path="/dashboard"  element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/donors/add" element={<ProtectedRoute><AddDonor /></ProtectedRoute>} />
+        <Route path="/badges" element={<ProtectedRoute><BadgesPage /></ProtectedRoute>} />
         <Route path="/profile"    element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
         {/* ════ 404 ════ */}

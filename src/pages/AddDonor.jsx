@@ -35,11 +35,12 @@ export default function AddDonor() {
   const navigate      = useNavigate();
   const { user }      = useAuth();
 
-  const [form, setForm] = useState({
-    firstName:"", lastName:"", dob:"", gender:"", bloodType:"",
-    weight:"", phone:"", email:"", address:"",
-    lastDonation:"", hemoglobin:"", medNotes:"",
-  });
+const [form, setForm] = useState({
+  firstName:"", lastName:"", dob:"", gender:"", bloodType:"",
+  weight:"", phone:"", email:"", address:"",
+  city:"", state:"", country:"India", pincode:"",
+  lastDonation:"", hemoglobin:"", medNotes:"",
+});
   const [perm, setPerm]           = useState({ ...initPerm });
   const [temp, setTemp]           = useState({ ...initTemp });
   const [errors, setErrors]       = useState({});
@@ -65,6 +66,11 @@ export default function AddDonor() {
     else if (Number(form.weight) < 50) e.weight = "Minimum 50 kg";
     if (!form.phone.trim())      e.phone      = "Required";
     if (!form.address.trim())    e.address    = "Required";
+    if (!form.city.trim())       e.city       = "Required";
+    if (!form.pincode.trim())    e.pincode    = "Required";
+    if (!form.state.trim())      e.state      = "Required";
+    if (!form.country.trim())    e.country    = "Required";
+  
     return e;
   };
 
@@ -181,9 +187,25 @@ export default function AddDonor() {
               value={form.phone} onChange={(e) => handleField("phone", e.target.value)} error={errors.phone} />
             <FormInput label="Email Address" type="email" placeholder="your@email.com"
               value={form.email} onChange={(e) => handleField("email", e.target.value)} />
-            <FormTextarea label="Address" required placeholder="Enter full address"
+            <FormTextarea label="Street Address" required placeholder="House no, street, area"
               value={form.address} onChange={(e) => handleField("address", e.target.value)}
-              error={errors.address} className="md:col-span-2" />
+               error={errors.address} className="md:col-span-2" />
+
+            <FormInput label="City" required placeholder="e.g. Silchar"
+              value={form.city} onChange={(e) => handleField("city", e.target.value)}
+              error={errors.city} />
+
+            <FormInput label="Pincode" required placeholder="e.g. 788001"
+              value={form.pincode} onChange={(e) => handleField("pincode", e.target.value)}
+              error={errors.pincode} />
+
+            <FormInput label="State" required placeholder="e.g. Assam"
+  value={form.state} onChange={(e) => handleField("state", e.target.value)}
+              error={errors.state} />
+
+              <FormInput label="Country" required placeholder="e.g. India"
+                value={form.country} onChange={(e) => handleField("country", e.target.value)}
+              error={errors.country} />
           </div>
         </div>
 

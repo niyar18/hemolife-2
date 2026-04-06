@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import BadgesModal from "./BadgesModal";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -6,6 +7,7 @@ export default function Navbar() {
   const [scrolled, setScrolled]     = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdown] = useState(false);
+  const [showBadges, setShowBadges] = useState(false);
   const { user, logout }            = useAuth();
   const location                    = useLocation();
   const navigate                    = useNavigate();
@@ -46,6 +48,7 @@ export default function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] h-[72px] transition-all duration-300 ${scrolled ? "shadow-[0_4px_24px_rgba(193,21,42,.1)]" : ""}`}
       style={{ background: "rgba(255,255,255,.9)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(225,29,72,.08)", fontFamily: "Poppins, sans-serif" }}
     >
+      {/* ── Logo ── */}
       <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-3 no-underline">
         <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
           style={{ background: "linear-gradient(135deg,#e11d48,#9f1239)" }}>
@@ -59,6 +62,7 @@ export default function Navbar() {
         </span>
       </Link>
 
+      {/* ── Desktop Nav Links ── */}
       {user && (
         <div className="hidden md:flex items-center gap-1">
           {links.map(({ path, label }) => {
@@ -73,15 +77,32 @@ export default function Navbar() {
         </div>
       )}
 
+      {/* ── Right Side ── */}
       <div className="flex items-center gap-3">
         {user ? (
           <>
+           <button
+               onClick={() => navigate("/badges")}
+               itle="My Badges"
+               style={{
+               background:"#fff1f2", border:"1.5px solid #fecdd3",
+               borderRadius:12, width:40, height:40, cursor:"pointer",
+                display:"flex", alignItems:"center", justifyContent:"center",
+                fontSize:18, transition:"all .2s",
+                }}
+                  onMouseEnter={(e) => e.currentTarget.style.background="#ffe4e6"}
+                  onMouseLeave={(e) => e.currentTarget.style.background="#fff1f2"}>
+                 🏅
+            </button>
+
+            {/* Donate Now */}
             <Link to="/donors/add"
               className="hidden md:inline-flex items-center px-5 py-2.5 rounded-xl text-white text-sm font-semibold no-underline transition-all hover:-translate-y-px"
               style={{ background: "linear-gradient(135deg,#e11d48,#9f1239)", boxShadow: "0 6px 20px rgba(193,21,42,.25)" }}>
               🩸 Donate Now
             </Link>
 
+            {/* User Avatar Dropdown */}
             <div className="relative" ref={dropRef}>
               <button onClick={() => setDropdown(!dropdownOpen)}
                 className="flex items-center gap-2.5 border-none bg-transparent cursor-pointer p-1.5 rounded-xl hover:bg-red-50 transition-all"
@@ -103,6 +124,7 @@ export default function Navbar() {
                 </svg>
               </button>
 
+              {/* Dropdown Menu */}
               {dropdownOpen && (
                 <div className="absolute right-0 top-[calc(100%+10px)] w-60 bg-white rounded-2xl border border-gray-100 py-1.5 z-50"
                   style={{ boxShadow: "0 16px 48px rgba(0,0,0,.14)" }}>
@@ -121,9 +143,9 @@ export default function Navbar() {
                   </div>
 
                   {[
-                    { icon: "👤", label: "My Profile",   path: "/profile" },
-                    { icon: "📊", label: "Dashboard",    path: "/dashboard" },
-                    { icon: "🩸", label: "Donors List",  path: "/donors" },
+                    { icon: "👤", label: "My Profile",    path: "/profile" },
+                    { icon: "📊", label: "Dashboard",     path: "/dashboard" },
+                    { icon: "🩸", label: "Donors List",   path: "/donors" },
                     { icon: "📋", label: "Register Donor",path: "/donors/add" },
                   ].map(({ icon, label, path }) => (
                     <Link key={label} to={path}
@@ -143,6 +165,7 @@ export default function Navbar() {
             </div>
           </>
         ) : (
+          /* Not logged in */
           <div className="hidden md:flex items-center gap-2">
             <Link to="/login" className="px-4 py-2 rounded-xl text-sm font-semibold text-gray-600 no-underline hover:bg-gray-100 transition-all">Sign In</Link>
             <Link to="/register"
@@ -153,12 +176,14 @@ export default function Navbar() {
           </div>
         )}
 
+        {/* Hamburger */}
         <button className="md:hidden flex flex-col gap-1.5 p-2 border-none bg-transparent cursor-pointer"
           onClick={() => setMobileOpen(!mobileOpen)}>
           {[0,1,2].map((i) => <span key={i} className="w-6 h-0.5 rounded block" style={{ background: "#be123c" }} />)}
         </button>
       </div>
 
+      {/* ── Mobile Menu ── */}
       {mobileOpen && (
         <div className="absolute top-[72px] left-0 right-0 bg-white border-b border-red-100 shadow-lg py-4 px-[5%] flex flex-col gap-2 md:hidden z-50">
           {user ? (
@@ -177,10 +202,11 @@ export default function Navbar() {
                   {label}
                 </Link>
               ))}
-              <button onClick={handleLogout}
-                className="py-2.5 px-4 rounded-xl text-sm font-semibold text-red-600 border border-red-200 bg-red-50 cursor-pointer text-left hover:bg-red-100 transition-all font-[inherit] mt-1">
-                🚪 Sign Out
-              </button>
+              <Link to="/badges"
+                 className="py-2.5 px-4 rounded-xl text-sm font-semibold text-red-600 border border-red-100 bg-red-50 no-underline hover:bg-red-100 transition-all">
+                🏅 My Badges
+              </Link>
+
             </>
           ) : (
             <>
@@ -191,6 +217,10 @@ export default function Navbar() {
           )}
         </div>
       )}
+
+      {/* ── Badges Modal — must be here at nav root level ── */}
+      {showBadges && <BadgesModal onClose={() => setShowBadges(false)} />}
+
     </nav>
   );
 }

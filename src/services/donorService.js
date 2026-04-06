@@ -60,7 +60,7 @@ export function saveDonor(formData, eligibilityStatus) {
     email:       formData.email      || "—",
     blood:       formData.bloodType,
     age,
-    location:    formData.address?.split(",").pop()?.trim() || "—",
+    location: [formData.city, formData.pincode].filter(Boolean).join(" · ") || formData.address?.split(",").pop()?.trim() || "—",
     lastDonated: new Date().toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }),
     count:       1,
     status:      eligibilityStatus,   // "eligible" | "temporary" | "permanent"
