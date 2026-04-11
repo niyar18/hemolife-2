@@ -36,7 +36,10 @@ export default function Navbar() {
     { path: "/dashboard",  label: "Dashboard" },
     { path: "/donors",     label: "Donors" },
     { path: "/donors/add", label: "Campaigns" },
+<<<<<<< HEAD
     { path: "/donations",  label: "Donations" },
+=======
+>>>>>>> 89fdc1aff146c1b3547e27112ba32b0457979d87
     { path: "/profile",    label: "Profile" },
   ];
 
@@ -84,7 +87,11 @@ export default function Navbar() {
           <>
            <button
                onClick={() => navigate("/badges")}
+<<<<<<< HEAD
                title="My Badges"
+=======
+               itle="My Badges"
+>>>>>>> 89fdc1aff146c1b3547e27112ba32b0457979d87
                style={{
                background:"#fff1f2", border:"1.5px solid #fecdd3",
                borderRadius:12, width:40, height:40, cursor:"pointer",

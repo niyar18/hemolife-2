@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { FormInput, FormSelect, FormTextarea } from "../components/FormInput";
 import { EligibilityCard, StatusBadge } from "../components/EligibilityCard";
+<<<<<<< HEAD
 import { addDonor } from "../services/api";
+=======
+import { saveDonor } from "../services/donorService";
+>>>>>>> 89fdc1aff146c1b3547e27112ba32b0457979d87
 
 const PERM_ITEMS = [
   { key:"cancer",    label:"Blood cancer (Leukemia / Lymphoma)" },
@@ -74,12 +78,17 @@ const [form, setForm] = useState({
     return e;
   };
 
+<<<<<<< HEAD
   const handleSubmit = async () => {
+=======
+  const handleSubmit = () => {
+>>>>>>> 89fdc1aff146c1b3547e27112ba32b0457979d87
     const errs = validate();
     setShowEligErr(true);
     if (Object.keys(errs).length) { setErrors(errs); return; }
     if (!canSubmit) return;
 
+<<<<<<< HEAD
     try {
       // Transmit to the Express PostgreSQL Backend
       await addDonor({
@@ -95,6 +104,12 @@ const [form, setForm] = useState({
     } catch (err) {
       alert("Error saving donor to the database: " + (err.message || "Unknown error"));
     }
+=======
+    /* ── Save donor to localStorage ── */
+    const saved = saveDonor(form, status);
+    setSavedName(`${form.firstName} ${form.lastName}`);
+    setSubmitted(true);
+>>>>>>> 89fdc1aff146c1b3547e27112ba32b0457979d87
   };
 
   /* ── Success screen ── */
@@ -180,7 +195,11 @@ const [form, setForm] = useState({
               value={form.firstName} onChange={(e) => handleField("firstName", e.target.value)} error={errors.firstName} />
             <FormInput label="Last Name" required placeholder="Enter last name"
               value={form.lastName} onChange={(e) => handleField("lastName", e.target.value)} error={errors.lastName} />
+<<<<<<< HEAD
             <FormInput label="Date of Birth" required type="text" placeholder="YYYY-MM-DD"
+=======
+            <FormInput label="Date of Birth" required type="date"
+>>>>>>> 89fdc1aff146c1b3547e27112ba32b0457979d87
               value={form.dob} onChange={(e) => handleField("dob", e.target.value)} error={errors.dob} />
             <FormSelect label="Gender" required value={form.gender}
               onChange={(e) => handleField("gender", e.target.value)} error={errors.gender}>

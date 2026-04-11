@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 89fdc1aff146c1b3547e27112ba32b0457979d87
 /* ─────────────────────────────────────────────────────────────
    Field MUST be defined OUTSIDE Register() so React doesn't
    unmount/remount it on every keystroke (which causes focus loss).
@@ -86,6 +89,7 @@ export default function Register() {
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setLoading(true);
+<<<<<<< HEAD
 
     try {
       await register({
@@ -99,6 +103,16 @@ export default function Register() {
       setLoading(false);
       setApiError(err.message || "Registration failed");
     }
+=======
+    await new Promise((r) => setTimeout(r, 600));
+    const result = register({
+      name: form.name, email: form.email, phone: form.phone,
+      bloodType: form.bloodType, location: form.location, password: form.password,
+    });
+    setLoading(false);
+    if (result.success) navigate("/dashboard");
+    else setApiError(result.error);
+>>>>>>> 89fdc1aff146c1b3547e27112ba32b0457979d87
   };
 
   /* Password strength */
